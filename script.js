@@ -52,9 +52,37 @@ const createDivValue = (el) => {
       });
     });
   };
+  const removeTasks = () => {
+    let otherArray = [];
+    otherArray = toDoValues;
+    let trashElement = [...document.querySelectorAll(".fa-trash-can")];
+    trashElement.map((element) => {
+      element.addEventListener("click", (evt) => {
+        toDoValues = toDoValues.filter((el) => {
+          return (
+            el != evt.target.parentNode.parentNode.firstElementChild.innerHTML
+          );
+        });
+        localStorage.setItem("todoList:@values", JSON.stringify(toDoValues));
+        evt.target.parentNode.parentNode.remove();
+        let textElement = [...document.querySelectorAll("p")];
+
+        localStorage.setItem(
+          "VerifyDoElement",
+          JSON.stringify(
+            textElement.map((element) => {
+              return element.classList.contains("doTask");
+            })
+          )
+        );
+        saveDoTasks();
+      });
+    });
+  };
 
   doTaskOfList();
   saveDoTasks();
+  removeTasks();
 };
 
 buttonAddValue.addEventListener("click", () => {
