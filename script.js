@@ -2,44 +2,80 @@ let inputAddValue = document.getElementById("addInput");
 let buttonAddValue = document.getElementById("addButton");
 let responseContainer = document.getElementById("responseDiv");
 let initialParagraph = document.getElementById("anyValue");
-let getlocalStorage = localStorage.getItem("toDoList:@value");
 
 let toDoValues = [];
 
 const createDivValue = (el) => {
-  buttonAddValue.addEventListener("click", () => {
-    if (inputAddValue.value != "") {
-      toDoValues.push(inputAddValue.value);
-      responseContainer.innerHTML = "";
-      el.map((element) => {
-        let div = document.createElement("div");
-        let otherDiv = document.createElement("div");
-        otherDiv.classList.add("fas", "fa-pen-to-square");
-        let lastIconDiv = document.createElement("div");
-        lastIconDiv.classList.add("fas", "fa-trash-can");
-        let divIcons = document.createElement("div");
-        divIcons.classList.add("marginIcons");
-        div.setAttribute("class", "fieldValue");
-        let paragraph = document.createElement("p");
-        paragraph.classList.add("borderBottom");
+  for (element of el) {
+    let div = document.createElement("div");
+    div.classList.add("fieldValue");
+    let trashIcon = document.createElement("div");
+    trashIcon.classList.add("fas", "fa-pen-to-square");
+    let editIcon = document.createElement("div");
+    editIcon.classList.add("fas", "fa-trash-can");
+    let iconsDiv = document.createElement("div");
+    iconsDiv.classList.add("marginIcons");
+    let paragraph = document.createElement("p");
+    paragraph.classList.add("borderBottom");
+    paragraph.append(element);
+    iconsDiv.appendChild(trashIcon);
+    iconsDiv.appendChild(editIcon);
+    div.appendChild(paragraph);
+    div.appendChild(iconsDiv);
+    responseContainer.appendChild(div);
+  }
+  localStorage.setItem("todoList:@values", JSON.stringify(toDoValues));
 
-        paragraph.append(element);
-        div.appendChild(paragraph);
-        divIcons.appendChild(otherDiv);
-        divIcons.appendChild(lastIconDiv);
-        div.appendChild(divIcons);
-        responseContainer.appendChild(div);
-        return;
+  const doTaskOfList = () => {
+    let elementP = [...document.querySelectorAll("p")];
+    elementP.map((ele) => {
+      ele.addEventListener("click", (evt) => {
+        ele.classList.toggle("doTask");
       });
-    } else {
-      alert("Adicione um valor a lista de tarefas");
-      return;
-    }
-    localStorage.setItem("toDoList:@value", JSON.stringify(toDoValues));
-  });
-};
-createDivValue(toDoValues);
+    });
+  };
 
-window.onload = () => {
-  toDoValues = JSON.parse(getlocalStorage);
+  const saveDoTasks = () => {
+    let positionDo = [];
+    let elementDo = [];
+    let pTasks = [...document.querySelectorAll("p")];
+    pTasks.map((element, i) => {
+      element.addEventListener("click", (evt) => {
+        positionDo = [];
+        elementDo = [];
+        pTasks.filter((el, index) => {
+          elementDo.push(el.classList.contains("doTask"));
+          positionDo.push(index);
+        });
+        localStorage.setItem("VerifyDoElement", JSON.stringify(elementDo));
+        localStorage.setItem("VerifyDoPosition", JSON.stringify(positionDo));
+      });
+    });
+  };
+
+  doTaskOfList();
+  saveDoTasks();
 };
+
+buttonAddValue.addEventListener("click", () => {
+  if (inputAddValue.value != "") {
+    responseContainer.innerHTML = "";
+    toDoValues.push(inputAddValue.value);
+    createDivValue(toDoValues);
+    return;
+  } else {
+    alert("Enter a value in your todo List");
+  }
+});
+let someValue = [];
+let getTodoValues = JSON.parse(localStorage.getItem("todoList:@values"));
+let trueElements = JSON.parse(localStorage.getItem("VerifyDoElement"));
+let positioElements = localStorage.getItem("VerifyDoPosition");
+window.addEventListener("load", () => {
+  someValue = trueElements;
+  if (toDoValues.length == 0 && getTodoValues != null) {
+    responseContainer.innerHTML = "";
+    toDoValues = getTodoValues;
+    createDivValue(toDoValues);
+  }
+});

@@ -86,3 +86,9 @@ input {
 .marginIcons {
   margin: 5px;
 }
+p {
+  cursor: pointer;
+}
+.doTask {
+  text-decoration: line-through;
+}
