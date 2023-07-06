@@ -64,6 +64,7 @@ const createDivValue = (el) => {
           );
         });
         localStorage.setItem("todoList:@values", JSON.stringify(toDoValues));
+
         evt.target.parentNode.parentNode.remove();
         let textElement = [...document.querySelectorAll("p")];
 
@@ -76,13 +77,31 @@ const createDivValue = (el) => {
           )
         );
         saveDoTasks();
+        if (toDoValues.length == 0) {
+          responseContainer.innerHTML = `<p class="initValue">Your list don't have any task, please add the first task</p>`;
+        }
       });
+    });
+  };
+  const reloadDoTasks = () => {
+    let doTasks = JSON.parse(localStorage.getItem("VerifyDoElement"));
+    let allParagraphs = [...document.querySelectorAll("p")];
+
+    doTasks.filter((el, index) => {
+      if (el == true) {
+        allParagraphs.filter((element, idx) => {
+          if (idx == index) {
+            element.classList.add("doTask");
+          }
+        });
+      }
     });
   };
 
   doTaskOfList();
   saveDoTasks();
   removeTasks();
+  reloadDoTasks();
 };
 
 buttonAddValue.addEventListener("click", () => {
@@ -94,16 +113,19 @@ buttonAddValue.addEventListener("click", () => {
   } else {
     alert("Enter a value in your todo List");
   }
+  saveDoTasks();
 });
 let someValue = [];
 let getTodoValues = JSON.parse(localStorage.getItem("todoList:@values"));
 let trueElements = JSON.parse(localStorage.getItem("VerifyDoElement"));
-let positioElements = localStorage.getItem("VerifyDoPosition");
 window.addEventListener("load", () => {
   someValue = trueElements;
   if (toDoValues.length == 0 && getTodoValues != null) {
     responseContainer.innerHTML = "";
     toDoValues = getTodoValues;
     createDivValue(toDoValues);
+  }
+  if (toDoValues.length == 0) {
+    responseContainer.innerHTML = `<p class="initValue">Your list don't have any task, please add the first task</p>`;
   }
 });
