@@ -92,3 +92,60 @@ p {
 .doTask {
   text-decoration: line-through;
 }
+.editContainer {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #111827;
+}
+.editValue {
+  background-color: #000;
+  border-radius: 12px;
+  color: #fff;
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 40px;
+}
+.buttonEditValue {
+  width: 50px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20px;
+  border-radius: 10px;
+  border: 0;
+  cursor: pointer;
+  background-color: #1e3aba;
+}
+.fa-pencil {
+  font-size: 20px;
+  color: #000;
+}
+.fa-circle-xmark {
+  color: #ed1c24;
+  cursor: pointer;
+  margin-right: 20px;
+  font-size: 30px;
+}
+.rowDirection {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+}
+.responseEditValue {
+  border-top: 3px solid #000;
+  border-bottom: 3px solid #000;
+  width: auto;
+  text-align: start;
+  margin-right: 25px;
+  margin-top: 25px;
+}
+h4 {
+  color: #fff;
+  font-size: 25px;
+}

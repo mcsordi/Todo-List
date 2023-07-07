@@ -2,8 +2,12 @@ let inputAddValue = document.getElementById("addInput");
 let buttonAddValue = document.getElementById("addButton");
 let responseContainer = document.getElementById("responseDiv");
 let initialParagraph = document.getElementById("anyValue");
+let editModalofValue = document.getElementById("editModal");
+let closeModal = document.getElementById("closeEditModal");
+let editButton = document.getElementById("buttonEdit");
 
 let toDoValues = [];
+let editToDoValues = [];
 
 const createDivValue = (el) => {
   for (element of el) {
@@ -24,7 +28,7 @@ const createDivValue = (el) => {
     div.appendChild(iconsDiv);
     responseContainer.appendChild(div);
   }
-  localStorage.setItem("todoList:@values", JSON.stringify(toDoValues));
+  localStorage.setItem("todoList:@values", JSON.stringify(el));
 
   const doTaskOfList = () => {
     let elementP = [...document.querySelectorAll("p")];
@@ -53,8 +57,6 @@ const createDivValue = (el) => {
     });
   };
   const removeTasks = () => {
-    let otherArray = [];
-    otherArray = toDoValues;
     let trashElement = [...document.querySelectorAll(".fa-trash-can")];
     trashElement.map((element) => {
       element.addEventListener("click", (evt) => {
@@ -97,18 +99,68 @@ const createDivValue = (el) => {
       }
     });
   };
+  const editValue = () => {
+    let editInputValue = document.getElementById("editInput");
+    let editIcons = [...document.querySelectorAll(".fa-pen-to-square")];
+    let editOfValue = document.getElementById("returnValue");
+    /* */
+    editIcons.map((element, index) => {
+      element.addEventListener("click", (evt) => {
+        editInputValue.value = "";
+        let getValues = JSON.parse(localStorage.getItem("todoList:@values"));
+        let clickElementValue = evt.target.parentNode.parentNode.innerText;
+        editModalofValue.style.display = "flex";
+        editOfValue.innerHTML = clickElementValue;
+        editInputValue.focus();
+        editToDoValues = toDoValues;
+        editButton.addEventListener("click", () => {
+          if (editInputValue.value == "") {
+            editInputValue.placeholder = "Valor não pode ser vazio";
+          } else {
+            editInputValue.placeholder = "";
+            editToDoValues = [];
+            getValues.filter((el, idx) => {
+              if (index != idx) {
+                editToDoValues.push(el);
+              } else {
+                editToDoValues.push(editInputValue.value);
+              }
+              localStorage.setItem(
+                "todoList:@values",
+                JSON.stringify(editToDoValues)
+              );
+              let getElementValues = JSON.parse(
+                localStorage.getItem("todoList:@values")
+              );
+              editModalofValue.style.display = "none";
+              responseContainer.innerHTML = "";
+              createDivValue(getElementValues);
+            });
+          }
+        });
+      });
+    });
+
+    closeModal.addEventListener("click", () => {
+      editModalofValue.style.display = "none";
+      editInputValue.value = "";
+      editInputValue.placeholder = "";
+    });
+  };
 
   doTaskOfList();
   saveDoTasks();
   removeTasks();
   reloadDoTasks();
+  editValue();
 };
 
 buttonAddValue.addEventListener("click", () => {
   if (inputAddValue.value != "") {
     responseContainer.innerHTML = "";
-    toDoValues.push(inputAddValue.value);
+    toDoValues.push(inputAddValue.value.trim());
     createDivValue(toDoValues);
+    inputAddValue.value = "";
     return;
   } else {
     alert("Enter a value in your todo List");
