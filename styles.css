@@ -79,10 +79,11 @@ input {
 }
 .fa-pen-to-square,
 .fa-trash-can {
-  padding-left: 10px;
+  display: flex;
   font-size: 20px;
   cursor: pointer;
 }
+
 .marginIcons {
   margin: 5px;
 }

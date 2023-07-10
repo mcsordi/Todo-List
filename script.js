@@ -17,15 +17,12 @@ const createDivValue = (el) => {
     trashIcon.classList.add("fas", "fa-pen-to-square");
     let editIcon = document.createElement("div");
     editIcon.classList.add("fas", "fa-trash-can");
-    let iconsDiv = document.createElement("div");
-    iconsDiv.classList.add("marginIcons");
     let paragraph = document.createElement("p");
     paragraph.classList.add("borderBottom");
     paragraph.append(element);
-    iconsDiv.appendChild(trashIcon);
-    iconsDiv.appendChild(editIcon);
     div.appendChild(paragraph);
-    div.appendChild(iconsDiv);
+    div.appendChild(trashIcon);
+    div.appendChild(editIcon);
     responseContainer.appendChild(div);
   }
   localStorage.setItem("todoList:@values", JSON.stringify(el));
@@ -58,16 +55,15 @@ const createDivValue = (el) => {
   };
   const removeTasks = () => {
     let trashElement = [...document.querySelectorAll(".fa-trash-can")];
+
     trashElement.map((element) => {
       element.addEventListener("click", (evt) => {
         toDoValues = toDoValues.filter((el) => {
-          return (
-            el != evt.target.parentNode.parentNode.firstElementChild.innerHTML
-          );
+          return el != evt.target.parentNode.firstElementChild.innerHTML;
         });
         localStorage.setItem("todoList:@values", JSON.stringify(toDoValues));
 
-        evt.target.parentNode.parentNode.remove();
+        evt.target.parentNode.remove();
         let textElement = [...document.querySelectorAll("p")];
 
         localStorage.setItem(
@@ -98,17 +94,18 @@ const createDivValue = (el) => {
         });
       }
     });
+    addEditEventListeners();
   };
   const editValue = () => {
     let editInputValue = document.getElementById("editInput");
     let editIcons = [...document.querySelectorAll(".fa-pen-to-square")];
     let editOfValue = document.getElementById("returnValue");
-    /* */
+
     editIcons.map((element, index) => {
       element.addEventListener("click", (evt) => {
         editInputValue.value = "";
         let getValues = JSON.parse(localStorage.getItem("todoList:@values"));
-        let clickElementValue = evt.target.parentNode.parentNode.innerText;
+        let clickElementValue = evt.target.parentNode.innerText;
         editModalofValue.style.display = "flex";
         editOfValue.innerHTML = clickElementValue;
         editInputValue.focus();
@@ -148,11 +145,49 @@ const createDivValue = (el) => {
     });
   };
 
+  const addEditEventListeners = () => {
+    let editIcons = [...document.querySelectorAll(".fa-pen-to-square")];
+    let pElements = [...document.querySelectorAll("p")];
+
+    editIcons.map((el, idx) => {
+      el.addEventListener("click", () => {
+        editValueRemoveDoTask = [];
+        pElements.map((pElement, index) => {
+          let containDoTask = pElement.classList.contains("doTask");
+
+          if (idx == index) {
+            editValueRemoveDoTask.push(false);
+          } else {
+            editValueRemoveDoTask.push(containDoTask);
+          }
+        });
+        if (
+          editButton.addEventListener("click", (event) => {
+            pElements.map((element) => {
+              element.classList.remove("doTask");
+              if (editInput.value != "") {
+                localStorage.setItem(
+                  "VerifyDoElement",
+                  JSON.stringify(editValueRemoveDoTask)
+                );
+
+                pElements[idx].classList.add("doTask");
+                event.preventDefault();
+              }
+            });
+          })
+        ) {
+        }
+      });
+    });
+  };
+
   doTaskOfList();
   saveDoTasks();
   removeTasks();
   reloadDoTasks();
   editValue();
+  addEditEventListeners();
 };
 
 buttonAddValue.addEventListener("click", () => {
@@ -167,6 +202,7 @@ buttonAddValue.addEventListener("click", () => {
   }
   saveDoTasks();
 });
+
 let someValue = [];
 let getTodoValues = JSON.parse(localStorage.getItem("todoList:@values"));
 let trueElements = JSON.parse(localStorage.getItem("VerifyDoElement"));
@@ -179,5 +215,6 @@ window.addEventListener("load", () => {
   }
   if (toDoValues.length == 0) {
     responseContainer.innerHTML = `<p class="initValue">Your list don't have any task, please add the first task</p>`;
+    return;
   }
 });
