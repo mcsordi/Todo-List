@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +13,7 @@ body {
   justify-content: center;
   width: 100%;
   height: 100vh;
-  background-color: #0f1021;
+  background-color: #0e2431;
 }
 .clientContainer {
   position: relative;
@@ -33,10 +36,11 @@ input {
   border-top: 1px;
   border-right: 1px;
   border-left: 1px;
-  border-width: 0.5px;
+  border-width: 3px;
   padding: 5px;
   color: #fff;
   font-size: 20px;
+  border-radius: 3px;
 }
 .fa-square-plus {
   font-size: 30px;
@@ -52,12 +56,14 @@ input {
   justify-content: center;
   width: 350px;
   min-height: 50px;
-  background-color: #0f1021;
+  background-color: #0e2431;
   margin-top: 25px;
 }
 .initValue {
   color: #fff;
   font-size: 16px;
+  font-family: "Lora", serif;
+  width: 400px;
 }
 .fieldValue {
   display: flex;
@@ -89,9 +95,10 @@ input {
 }
 p {
   cursor: pointer;
+  font-family: "Roboto Slab", serif;
 }
 .doTask {
-  text-decoration: line-through;
+  text-decoration: line-through #f00;
 }
 .editContainer {
   display: none;
@@ -149,4 +156,7 @@ p {
 h4 {
   color: #fff;
   font-size: 25px;
+}
+.highlights {
+  background-color: #9ba6a5;
 }

@@ -31,7 +31,9 @@ const createDivValue = (el) => {
     let elementP = [...document.querySelectorAll("p")];
     elementP.map((ele) => {
       ele.addEventListener("click", (evt) => {
+        let parentEl = evt.target.parentNode;
         ele.classList.toggle("doTask");
+        parentEl.classList.toggle("highlights");
       });
     });
   };
@@ -55,11 +57,11 @@ const createDivValue = (el) => {
   };
   const removeTasks = () => {
     let trashElement = [...document.querySelectorAll(".fa-trash-can")];
-    let getDoList = JSON.parse(localStorage.getItem("todoList:@values"));
 
     trashElement.map((element) => {
       element.addEventListener("click", (evt) => {
-        toDoValues = getDoList.filter((el) => {
+        let getValues = JSON.parse(localStorage.getItem("todoList:@values"));
+        toDoValues = getValues.filter((el) => {
           return el != evt.target.parentNode.firstElementChild.innerHTML;
         });
         localStorage.setItem("todoList:@values", JSON.stringify(toDoValues));
@@ -82,20 +84,25 @@ const createDivValue = (el) => {
       });
     });
   };
+
   const reloadDoTasks = () => {
     let doTasks = JSON.parse(localStorage.getItem("VerifyDoElement"));
     let allParagraphs = [...document.querySelectorAll("p")];
-
-    doTasks.filter((el, index) => {
-      if (el == true) {
-        allParagraphs.filter((element, idx) => {
-          if (idx == index) {
-            element.classList.add("doTask");
-          }
-        });
-      }
-    });
-    addEditEventListeners();
+    try {
+      doTasks.filter((el, index) => {
+        if (el == true) {
+          allParagraphs.filter((element, idx) => {
+            if (idx == index) {
+              element.classList.add("doTask");
+              element.parentNode.classList.add("highlights");
+            }
+          });
+        }
+      });
+      addEditEventListeners();
+    } catch (error) {
+      error;
+    }
   };
   const editValue = () => {
     let editInputValue = document.getElementById("editInput");
@@ -138,7 +145,6 @@ const createDivValue = (el) => {
         });
       });
     });
-
     closeModal.addEventListener("click", () => {
       editModalofValue.style.display = "none";
       editInputValue.value = "";
@@ -197,11 +203,10 @@ buttonAddValue.addEventListener("click", () => {
     toDoValues.push(inputAddValue.value.trim());
     createDivValue(toDoValues);
     inputAddValue.value = "";
-    return;
+    inputAddValue.focus();
   } else {
     alert("Enter a value in your todo List");
   }
-  saveDoTasks();
 });
 
 let someValue = [];
