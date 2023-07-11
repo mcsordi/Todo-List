@@ -55,10 +55,11 @@ const createDivValue = (el) => {
   };
   const removeTasks = () => {
     let trashElement = [...document.querySelectorAll(".fa-trash-can")];
+    let getDoList = JSON.parse(localStorage.getItem("todoList:@values"));
 
     trashElement.map((element) => {
       element.addEventListener("click", (evt) => {
-        toDoValues = toDoValues.filter((el) => {
+        toDoValues = getDoList.filter((el) => {
           return el != evt.target.parentNode.firstElementChild.innerHTML;
         });
         localStorage.setItem("todoList:@values", JSON.stringify(toDoValues));
