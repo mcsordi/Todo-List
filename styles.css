@@ -146,8 +146,8 @@ p {
   flex-direction: row;
 }
 .responseEditValue {
-  border-top: 3px solid #000;
-  border-bottom: 3px solid #000;
+  border-top: 3px solid #444036;
+  border-bottom: 3px solid #444036;
   width: auto;
   text-align: start;
   margin-right: 25px;
