@@ -5,6 +5,7 @@
 @media (max-width: 600px) {
   body {
     width: 100%;
+    height: 100vh;
   }
   .initValue {
     color: #fff;
@@ -49,5 +50,13 @@
   }
   .cancelButton {
     width: 85%;
+  }
+  .buttonEditValue:hover {
+    .fa-angles-down {
+      font-size: 20px;
+    }
+  }
+  .fa-square-plus:hover {
+    color: #bbe4e9;
   }
 }
