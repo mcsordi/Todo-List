@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300&display=swap");
+
+@media (max-width: 600px) {
+  body {
+    width: 100%;
+  }
+  .initValue {
+    color: #fff;
+    font-size: 16px;
+    font-family: "Lora", serif;
+    width: auto;
+    text-align: center;
+    margin-top: 50px;
+  }
+  .fa-pen-to-square,
+  .fa-trash-can {
+    font-size: 25px;
+    cursor: pointer;
+  }
+  .fa-angles-down {
+    font-size: 25px;
+  }
+  .fa-circle-xmark {
+    font-size: 40px;
+  }
+  .fa-square-plus {
+    font-size: 35px;
+  }
+  .clientContainer {
+    width: 90%;
+  }
+  .fieldValue {
+    width: 95%;
+  }
+  .responseEditValue {
+    display: flex;
+    border-top: 3px solid #444036;
+    border-bottom: 3px solid #444036;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    margin-right: 25px;
+    margin-top: 50px;
+    flex-wrap: wrap;
+    height: auto;
+    white-space: pre-line;
+  }
+  .cancelButton {
+    width: 85%;
+  }
+}
